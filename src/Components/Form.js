@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
 import { TextField } from "@mui/material";
-import { clear } from "@testing-library/user-event/dist/clear";
 
+import axios from "axios";
 export default function Form() {
 
     const [firstname, setFirstName] = useState("");
@@ -22,6 +22,24 @@ export default function Form() {
         setLastName("");
         setLink("");
     };
+
+    const createGame = (event) => {
+        event.preventDefault()
+
+        axios.post("http://127.0.0.1:5000/submit-form",{
+            firstname: firstname,
+            lastname: lastname,
+            link: link
+        }).then(response => {
+            console.log(response.data)
+            setFirstName("");
+            setLastName("");
+            setLink("");
+        })
+        .catch(error => {
+            console.error("Error:",error)
+        })
+    }
 
     return(
         <Box
@@ -67,7 +85,7 @@ export default function Form() {
                 />
             </div>
             <div>
-                <Button type="submit" variant="contained" color="primary">
+                <Button type="submit" variant="contained" color="primary" onClick={createGame}>
                     Submit
                 </Button>
                 <Button variant="contained" color="secondary" onClick={clear}>
