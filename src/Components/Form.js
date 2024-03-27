@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
 import { TextField } from "@mui/material";
+import BasicTabs from "./CustomTab";
 
 import axios from "axios";
 export default function Form() {
@@ -8,6 +9,8 @@ export default function Form() {
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastName] = useState("");
     const [link, setLink] = useState("");
+    const [schools, setSchools] = useState([]);
+    const [experience, setExperience] = useState([]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -25,11 +28,12 @@ export default function Form() {
 
     const createGame = (event) => {
         event.preventDefault()
-
+        console.log(schools)
+        console.group(experience)
         axios.post("http://127.0.0.1:5000/submit-form",{
             firstname: firstname,
             lastname: lastname,
-            link: link
+            link: link,
         }).then(response => {
             console.log(response.data)
             setFirstName("");
@@ -40,6 +44,13 @@ export default function Form() {
             console.error("Error:",error)
         })
     }
+    const handleSchoolsChange = (updatedSchools) => {
+        setSchools(updatedSchools);
+    };
+
+    const handleExperienceChange = (updatedExperience) => {
+        setExperience(updatedExperience);
+    };
 
     return(
         <Box
@@ -54,7 +65,7 @@ export default function Form() {
             <TextField
                 required
                 id="outlined-required"
-                label="Required"
+                label="First Name"
                 placeholder="First Name"
                 value={firstname}
                 onChange={(event) => {
@@ -64,7 +75,7 @@ export default function Form() {
             <TextField
                 required
                 id="outline-required"
-                label="Required"
+                label="Last Name"
                 placeholder="Last Name" 
                 value={lastname}
                 onChange={(event) => {
@@ -76,13 +87,19 @@ export default function Form() {
                 <TextField
                     required 
                     id="outline-required"
-                    label="Required"
+                    label="Profile Link"
                     placeholder="LinkedIn Profile Link"
                     value={link}
                     onChange={(event) => {
                         setLink(event.target.value);
                     }}
                 />
+            </div>
+            <div>
+            <BasicTabs 
+            onSchoolsChange={handleSchoolsChange}
+            onExperienceChange={handleExperienceChange}
+            />
             </div>
             <div>
                 <Button type="submit" variant="contained" color="primary" onClick={createGame}>
