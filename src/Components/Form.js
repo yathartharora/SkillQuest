@@ -34,6 +34,8 @@ export default function Form() {
             firstname: firstname,
             lastname: lastname,
             link: link,
+            schools: schools,
+            experience: experience
         }).then(response => {
             console.log(response.data)
             setFirstName("");
@@ -87,8 +89,8 @@ export default function Form() {
                 <TextField
                     required 
                     id="outline-required"
-                    label="Profile Link"
-                    placeholder="LinkedIn Profile Link"
+                    label="Email Address"
+                    placeholder="Email"
                     value={link}
                     onChange={(event) => {
                         setLink(event.target.value);
